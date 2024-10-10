@@ -210,7 +210,7 @@ const displayDog=(pets)=>{
 
 
             <div class="border-2 border-gray-500 py-1 px-3 rounded-2xl flex justify-center items-center ">
-              <button class="font-bold text-[#0E7A81] text-[20px]">Details</button>
+              <button onclick="my_modal_1.showModal()" class="font-bold text-[#0E7A81] text-[20px]">Details</button>
             </div>
 
 
@@ -281,13 +281,13 @@ const displayCats=(pets)=>{
 
 
             <div class="border-2 border-gray-500 py-1 px-3 rounded-2xl flex justify-center items-center ">
-              <button class="font-bold text-[#0E7A81] text-[20px]">Adopt</button>
+              <button onclick="showPopup()" class="font-bold text-[#0E7A81] text-[20px]">Adopt</button>
             </div>
 
 
 
             <div class="border-2 border-gray-500 py-1 px-3 rounded-2xl flex justify-center items-center ">
-              <button class="font-bold text-[#0E7A81] text-[20px]">Details</button>
+              <button onclick="my_modal_1.showModal()" class="font-bold text-[#0E7A81] text-[20px]">Details</button>
             </div>
 
 
@@ -357,13 +357,13 @@ const displayRabbits=(pets)=>{
 
 
             <div class="border-2 border-gray-500 py-1 px-3 rounded-2xl flex justify-center items-center ">
-              <button class="font-bold text-[#0E7A81] text-[20px]">Adopt</button>
+              <button onclick="showPopup()" class="font-bold text-[#0E7A81] text-[20px]">Adopt</button>
             </div>
 
 
 
             <div class="border-2 border-gray-500 py-1 px-3 rounded-2xl flex justify-center items-center ">
-              <button class="font-bold text-[#0E7A81] text-[20px]">Details</button>
+              <button onclick="my_modal_1.showModal()" class="font-bold text-[#0E7A81] text-[20px]">Details</button>
             </div>
 
 
