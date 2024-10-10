@@ -1,3 +1,5 @@
+
+
 const loadAllPets =async()=>{
     const response= await fetch(`https://openapi.programming-hero.com/api/peddy/pets`)
     const data=await response.json();
@@ -21,25 +23,25 @@ const displayAllpets=(pets)=>{
 
           <div class="flex gap-3 items-center mt-1">
             <img src="images/ci1.png" alt="">
-        <h1 class="text-[16px] text-gray-500">Breed: ${pet.breed}</h1>
+        <h1 class="text-[16px] text-gray-500">Breed: ${pet.breed?`${pet.breed}`:`Not Available`}</h1>
           </div>
 
 
           <div class="flex gap-3 items-center mt-1">
             <img src="images/ci2.png" alt="">
-        <h1 class="text-[16px] text-gray-500">Birth: ${pet.date_of_birth}</h1>
+        <h1 class="text-[16px] text-gray-500">Birth: ${pet.date_of_birth?`${pet.date_of_birth}`:`Not Available`}</h1>
           </div>
 
 
           <div class="flex gap-3 items-center mt-1">
             <img src="images/ci3.png" alt="">
-        <h1 class="text-[16px] text-gray-500">Gender: ${pet.gender}</h1>
+        <h1 class="text-[16px] text-gray-500">Gender: ${pet.gender?`${pet.gender}`:`Not Available`}</h1>
           </div>
 
 
           <div class="flex gap-3 items-center mt-1">
             <img src="images/ci4.png" alt="">
-        <h1 class="text-[16px] text-gray-500">Price : ${pet.price}$</h1>
+        <h1 class="text-[16px] text-gray-500">Price : ${pet.price?`${pet.price}`:`Not Available`}$</h1>
           </div>
 
           <hr class="border-1 border-gray-600 my-3">
@@ -51,13 +53,14 @@ const displayAllpets=(pets)=>{
 
 
             <div class="border-2 border-gray-500 py-1 px-3 rounded-2xl flex justify-center items-center ">
-              <button class="font-bold text-[#0E7A81] text-[20px]">Adopt</button>
+              <button id="${pet.petId}" onclick="showPopup()"  class="font-bold text-[#0E7A81] text-[20px]">Adopt</button>
+              
             </div>
 
 
 
             <div class="border-2 border-gray-500 py-1 px-3 rounded-2xl flex justify-center items-center ">
-              <button  onclick=" showModal() my_modal_1.showModal() " class="font-bold text-[#0E7A81] text-[20px]">Details</button>
+              <button  onclick="my_modal_1.showModal()" class="font-bold text-[#0E7A81] text-[20px]">Details</button>
             </div>
 
 
@@ -134,12 +137,12 @@ const sendPetImg=(petimg)=>{
     const sendPetImgContainer=document.getElementById('send-pet-img');
     const div=document.createElement('div');
     div.innerHTML=`
-    <div class="w-[130px] h-[90px] border-2 border-red-600  mt-5 mr-3">
+    <div class="w-[130px] h-[90px]   mt-5 mr-3">
         <img class="w-full h-full rounded-xl" src="${petimg}" alt="">
       </div>
 
     `
-    div.classList.add('col-span-1')
+   
     sendPetImgContainer.appendChild(div);
 
 }
@@ -152,6 +155,7 @@ const categoryDog=async()=>{
     const data= await response.json();
     // displaDog(data)
     displayDog(data.data);
+    showLoading()
    
     
 }
@@ -200,7 +204,7 @@ const displayDog=(pets)=>{
 
 
             <div class="border-2 border-gray-500 py-1 px-3 rounded-2xl flex justify-center items-center ">
-              <button class="font-bold text-[#0E7A81] text-[20px]">Adopt</button>
+              <button  onclick="showPopup()" class="font-bold text-[#0E7A81] text-[20px]">Adopt</button>
             </div>
 
 
@@ -228,9 +232,8 @@ const categoryCats=async()=>{
     const response= await fetch(`https://openapi.programming-hero.com/api/peddy/category/cat`)
     const data= await response.json();
     // displaDog(data)
-    displayCats(data.data);
-   
-    
+    displayCats(data.data);  
+    showLoading() 
 }
 
 
@@ -307,6 +310,7 @@ const categoryRabbits=async()=>{
     const data= await response.json();
     // displaDog(data)
     displayRabbits(data.data);
+    showLoading()
 }
 
 
@@ -382,11 +386,13 @@ const categoryBirds=async()=>{
     const data= await response.json();
     displayBirds(data.data);
     
+    
 }
 
 
 const displayBirds=(data)=>{
     if(data==''){
+      showLoading()
         document.getElementById('pet-card-container').innerHTML=''
         const PetCardContainer= document.getElementById('pet-card-container')
         const div=document.createElement('div')
@@ -409,5 +415,164 @@ const displayBirds=(data)=>{
 
 
 
+const sortByPrice= document.getElementById('sort-by-price')
+sortByPrice.addEventListener('click',()=>{
+    fetch(`https://openapi.programming-hero.com/api/peddy/pets`)
+    .then((response)=>response.json())
+    .then((data)=>{
+        const pets= data.pets;
+        const high= pets.sort((a,b) => b.price-a.price) 
+       
 
+        // sart
+        document.getElementById('pet-card-container').innerHTML="";
+        const PetCardContainer=document.getElementById('pet-card-container')
+        pets.forEach(high=>{
+            const div=document.createElement('div');
+            div.innerHTML=`
+             <div class="w-[285px] h-[450px]  border-[3px] border-gray-500 mt-3 rounded-2xl p-4">
+            <img class="h-[200px] w-full rounded-2xl " src="${high.image}" alt="">
+            <h1 class="pt-3 text-[20px] font-bold">${high.pet_name}</h1>
+            <div class="card-option ">
+    
+              <div class="flex gap-3 items-center mt-1">
+                <img src="images/ci1.png" alt="">
+            <h1 class="text-[16px] text-gray-500">Breed: ${high.breed}</h1>
+              </div>
+    
+    
+              <div class="flex gap-3 items-center mt-1">
+                <img src="images/ci2.png" alt="">
+            <h1 class="text-[16px] text-gray-500">Birth: ${high.date_of_birth}</h1>
+              </div>
+    
+    
+              <div class="flex gap-3 items-center mt-1">
+                <img src="images/ci3.png" alt="">
+            <h1 class="text-[16px] text-gray-500">Gender: ${high.gender}</h1>
+              </div>
+    
+    
+              <div class="flex gap-3 items-center mt-1">
+                <img src="images/ci4.png" alt="">
+            <h1 class="text-[16px] text-gray-500">Price : ${high.price}$</h1>
+              </div>
+    
+              <hr class="border-1 border-gray-600 my-3">
+    
+              <div class="flex justify-between gap-2">
+                <div class="border-2 border-gray-500 py-1 px-3 rounded-2xl flex justify-center items-center ">
+                  <button onclick="sendPetImg('${high.image}')"><img src="images/ci5.png" alt=""></button>
+                </div>
+    
+    
+                <div class="border-2 border-gray-500 py-1 px-3 rounded-2xl flex justify-center items-center ">
+                  <button class="font-bold text-[#0E7A81] text-[20px]">Adopt</button>
+                </div>
+    
+    
+    
+                <div class="border-2 border-gray-500 py-1 px-3 rounded-2xl flex justify-center items-center ">
+                  <button class="font-bold text-[#0E7A81] text-[20px]">Details</button>
+                </div>
+    
+    
+              </div>
+    
+            </div>
+    
+          </div>  
+            `
+            PetCardContainer.appendChild(div);
+        });
+
+        // end
+    })
+})
+
+
+
+
+
+
+   
+
+  
+
+
+
+
+
+
+
+
+
+
+        // ৪৪৪৪৪৪৪৪৪৪৪৪৪৪৪৪৪
+
+
+   
+
+   
+        function showPopup() {
+            const popup = document.getElementById('popup1');
+            const overlay = document.getElementById('overlay1');
+            const adoptButton = document.getElementById('adoptButton');
+
+            // পপ-আপ এবং ওভারলে দেখানো
+            popup.style.display = 'block';
+            overlay.style.display = 'block';
+            
+            let countdownValue = 3;
+            const countdownElement = popup.querySelector('h1');
+            countdownElement.textContent = countdownValue;
+
+            // কাউন্টডাউন শুরু
+            const countdownInterval = setInterval(function() {
+                countdownValue--;
+                countdownElement.textContent = countdownValue;
+
+                if (countdownValue <= 0) {
+                  const adoptBtn= document.getElementById('adoptButton')
+                  adoptBtn.style.color="white";
+                 
+                    clearInterval(countdownInterval);
+                    popup.style.display = 'none';
+                    overlay.style.display = 'none';
+                    adoptButton.textContent = 'Adopted'; // বাটনের টেক্সট পরিবর্তন
+                    adoptButton.disabled = true; // বাটন ডিসএবল করা
+                }
+            }, 1000);
+        }
+
+
+   
+
+   
+// Lodding
+
+   
+
+    
+function showLoading() {
+  const popup = document.getElementById('popup');
+  const overlay = document.getElementById('overlay');
+
+  // পপ-আপ এবং ওভারলে দেখানো
+  popup.style.display = 'block';
+  overlay.style.display = 'block';
+
+  // দুই সেকেন্ড পরে পপ-আপটি বন্ধ করা
+  setTimeout(function() {
+      popup.style.display = 'none';
+      overlay.style.display = 'none';
+  }, 2000); // 2000 মিলিসেকেন্ড = 2 সেকেন্ড
+}
+
+
+
+
+
+
+    
 
